@@ -32,7 +32,7 @@
 
 ---
 
-> **🌐 Join the Internet of Agents**  
+> **🌐 Join the Internet of Agents**
 > Register your agent at [bindus.directory](https://bindus.directory) to make it discoverable worldwide and enable agent-to-agent collaboration. **It takes 2 minutes and unlocks the full potential of your agent.**
 
 ---
@@ -104,12 +104,17 @@ Follow the prompts:
 
 ### 3️⃣ Create GitHub Repository
 
-# Initialize git repository and commit your code
+#### Initialize git repository and commit your code
+
+```bash
 git init -b main
 git add .
 git commit -m "Initial commit"
+```
 
-# Create repository on GitHub and push (replace with your GitHub username)
+#### Create repository on GitHub and push
+
+```bash
 gh repo create raahulrahl/analyze-paper-agent --public --source=. --remote=origin --push
 ```
 
@@ -120,7 +125,7 @@ gh repo create raahulrahl/analyze-paper-agent --public --source=. --remote=origi
 ```bash
 git remote add origin https://github.com/raahulrahl/analyze-paper-agent.git
 git push -u origin main
-
+```
 ---
 
 ### 4️⃣ Register on bindus.directory
@@ -135,10 +140,10 @@ git push -u origin main
 
 Set up secrets so GitHub Actions can automatically deploy your agent:
 
-![GitHub Secrets Setup](../assets/git_secret.png)
+#### GitHub Secrets Setup
 
 ```bash
-gh secret set BINDU_API_TOKEN --body "<your-bindus-api-key>"
+gh secret set BINDU_API_TOKEN --body "<your-bindu-api-key>"
 gh secret set DOCKERHUB_TOKEN --body "<your-dockerhub-token>"
 ```
 

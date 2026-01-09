@@ -7,8 +7,7 @@
 #
 #  Thank you users! We ❤️ you! - 🌻
 
-"""analyze-paper-agent - An Bindu Agent.
-"""
+"""analyze-paper-agent - An Bindu Agent."""
 
 from analyze_paper_agent.__version__ import __version__
 from analyze_paper_agent.main import (

@@ -7,9 +7,7 @@
 #
 #  Thank you users! We ❤️ you! - 🌻
 
-"""analyze-paper-agent - An Bindu Agent.
-
-"""
+"""analyze-paper-agent - An Bindu Agent."""
 
 import argparse
 import asyncio
@@ -17,18 +15,14 @@ import json
 import os
 from pathlib import Path
 from textwrap import dedent
-from typing import Any, Optional
-
+from typing import Any
 
 from agno.agent import Agent
 from agno.models.openrouter import OpenRouter
 from agno.tools.mcp import MultiMCPTools
 from agno.tools.mem0 import Mem0Tools
-
-
 from bindu.penguin.bindufy import bindufy
 from dotenv import load_dotenv
-
 
 # Load environment variables from .env file
 load_dotenv()
@@ -73,7 +67,7 @@ def load_config() -> dict:
     # Get path to agent_config.json in project root
     config_path = Path(__file__).parent / "agent_config.json"
 
-    with open(config_path, "r") as f:
+    with open(config_path) as f:
         return json.load(f)
 
 
@@ -87,25 +81,57 @@ async def initialize_agent() -> None:
         raise ValueError(msg)
 
     agent = Agent(
-        name=f"analyze-paper-agent Bindu Agent",
+        name="analyze-paper-agent Bindu Agent",
         model=OpenRouter(id=model_name),
-        tools=[tool for tool in [mcp_tools, Mem0Tools(api_key=mem0_api_key)] if tool is not None],  # MultiMCPTools instance
+        tools=[
+            tool for tool in [mcp_tools, Mem0Tools(api_key=mem0_api_key)] if tool is not None
+        ],  # MultiMCPTools instance
         instructions=dedent("""\
-            You are a helpful AI assistant with access to multiple capabilities including:
-            - Airbnb search for accommodations and listings
-            - Google Maps for location information and directions
+            # IDENTITY and PURPOSE
+You are an objectively minded and centrist-oriented analyzer of truth claims and arguments.
 
-            Your capabilities:
-            - Search for Airbnb listings based on location, dates, and guest requirements
-            - Provide detailed information about available properties
-            - Access Google Maps data for location information and directions
-            - Help users find the best accommodations for their needs
+You specialize in analyzing and rating the truth claims made in the input provided and providing both evidence in support of those claims, as well as counter-arguments and counter-evidence that are relevant to those claims.
 
-            Always:
-            - Be clear and concise in your responses
-            - Provide relevant details about listings and locations
-            - Ask for clarification if needed
-            - Format responses in a user-friendly way
+You also provide a rating for each truth claim made.
+
+The purpose is to provide a concise and balanced view of the claims made in a given piece of input so that one can see the whole picture.
+
+Take a step back and think step by step about how to achieve the best possible output given the goals above.
+
+# Steps
+
+- Deeply analyze the truth claims and arguments being made in the input.
+- Separate the truth claims from the arguments in your mind.
+
+# OUTPUT INSTRUCTIONS
+
+- Provide a summary of the argument being made in less than 30 words in a section called ARGUMENT SUMMARY:.
+
+- In a section called TRUTH CLAIMS:, perform the following steps for each:
+
+1. List the claim being made in less than 16 words in a subsection called CLAIM:.
+2. Provide solid, verifiable evidence that this claim is true using valid, verified, and easily corroborated facts, data, and/or statistics. Provide references for each, and DO NOT make any of those up. They must be 100% real and externally verifiable. Put each of these in a subsection called CLAIM SUPPORT EVIDENCE:.
+
+3. Provide solid, verifiable evidence that this claim is false using valid, verified, and easily corroborated facts, data, and/or statistics. Provide references for each, and DO NOT make any of those up. They must be 100% real and externally verifiable. Put each of these in a subsection called CLAIM REFUTATION EVIDENCE:.
+
+4. Provide a list of logical fallacies this argument is committing, and give short quoted snippets as examples, in a section called LOGICAL FALLACIES:.
+
+5. Provide a CLAIM QUALITY score in a section called CLAIM RATING:, that has the following tiers:
+   A (Definitely True)
+   B (High)
+   C (Medium)
+   D (Low)
+   F (Definitely False)
+
+6. Provide a list of characterization labels for the claim, e.g., specious, extreme-right, weak, baseless, personal attack, emotional, defensive, progressive, woke, conservative, pandering, fallacious, etc., in a section called LABELS:.
+
+- In a section called OVERALL SCORE:, give a final grade for the input using the same scale as above. Provide three scores:
+
+LOWEST CLAIM SCORE:
+HIGHEST CLAIM SCORE:
+AVERAGE CLAIM SCORE:
+
+- In a section called OVERALL ANALYSIS:, give a 30-word summary of the quality of the argument(s) made in the input, its weaknesses, its strengths, and a recommendation for how to possibly update one's understanding of the world based on the arguments provided.
         """),
         add_datetime_to_context=True,
         markdown=True,
@@ -113,7 +139,7 @@ async def initialize_agent() -> None:
     print("✅ Agent initialized")
 
 
-async def cleanup_mcp_tools()-> None:
+async def cleanup_mcp_tools() -> None:
     """Close all MCP server connections."""
     global mcp_tools
 
@@ -141,8 +167,6 @@ async def run_agent(messages: list[dict[str, str]]) -> Any:
     return response
 
 
-
-
 async def handler(messages: list[dict[str, str]]) -> Any:
     """Handle incoming agent messages.
 
@@ -153,7 +177,6 @@ async def handler(messages: list[dict[str, str]]) -> Any:
     Returns:
         Agent response (ManifestWorker will handle extraction)
     """
-    
     # Run agent with messages
     global _initialized
 
@@ -164,7 +187,7 @@ async def handler(messages: list[dict[str, str]]) -> Any:
             # Build environment with API keys
             env = {
                 **os.environ,
-                #"GOOGLE_MAPS_API_KEY": os.getenv("GOOGLE_MAPS_API_KEY", ""),
+                # "GOOGLE_MAPS_API_KEY": os.getenv("GOOGLE_MAPS_API_KEY", ""),
             }
             await initialize_all(env)
             _initialized = True
@@ -172,21 +195,20 @@ async def handler(messages: list[dict[str, str]]) -> Any:
     # Run the async agent
     result = await run_agent(messages)
     return result
-    
 
 
-async def initialize_all(env: Optional[dict[str, str]] = None):
+async def initialize_all(env: dict[str, str] | None = None):
     """Initialize MCP tools and agent.
 
     Args:
         env: Environment variables dict for MCP servers
     """
-    await initialize_mcp_tools(env)
+    # await initialize_mcp_tools(env)
     await initialize_agent()
 
 
 def main():
-    """Main entry point for the Airbnb Travel Agent."""
+    """Run the Agent."""
     global model_name, api_key, mem0_api_key
 
     # Parse command-line arguments
@@ -218,9 +240,9 @@ def main():
     mem0_api_key = args.mem0_api_key
 
     if not api_key:
-        raise ValueError("OPENROUTER_API_KEY required") # noqa: TRY003
+        raise ValueError("OPENROUTER_API_KEY required")  # noqa: TRY003
     if not mem0_api_key:
-        raise ValueError("MEM0_API_KEY required. Get your API key from: https://app.mem0.ai/dashboard/api-keys") # noqa: TRY003
+        raise ValueError("MEM0_API_KEY required. Get your API key from: https://app.mem0.ai/dashboard/api-keys")  # noqa: TRY003
 
     print(f"🤖 Using model: {model_name}")
     print("🧠 Mem0 memory enabled")
