@@ -5,13 +5,17 @@ author: raahul@getbindu.com
 
 # Description
 description: |
-  Description of the __SKILL_NAME__ skill.
-  TODO: Update this description with your skill's purpose and capabilities.
+  Analyzes research papers and arguments by extracting truth claims, evaluating evidence,
+  identifying logical fallacies, and providing balanced assessments with quality ratings.
+  Provides both supporting and refuting evidence for claims to give a complete picture.
 
 # Tags and Modes
 tags:
-  - __SKILL_NAME__
-  - TODO-add-relevant-tags
+  - research
+  - analysis
+  - fact-checking
+  - academic
+  - critical-thinking
 
 input_modes:
   - text/plain
@@ -23,38 +27,47 @@ output_modes:
 
 # Example Queries
 examples:
-  - "TODO: Add example query 1"
-  - "TODO: Add example query 2"
-  - "TODO: Add example query 3"
+  - "Analyze the claims in this research paper about climate change"
+  - "Evaluate the arguments and evidence in this scientific study"
+  - "Identify logical fallacies in this academic paper"
 
 # Detailed Capabilities
 capabilities_detail:
   primary_capability:
     supported: true
-    description: "TODO: Describe your primary capability"
+    description: "Analyzes truth claims and arguments with evidence-based evaluation"
     features:
-      - "TODO: Feature 1"
-      - "TODO: Feature 2"
-    limitations: "TODO: List any limitations"
+      - "Extracts and lists truth claims from input text"
+      - "Provides supporting evidence with verifiable references"
+      - "Provides refuting evidence with verifiable references"
+      - "Identifies logical fallacies with examples"
+      - "Assigns quality ratings (A-F scale) to claims"
+      - "Generates balanced overall analysis"
+    limitations: "Requires verifiable external sources; may not have access to very recent publications"
 
   secondary_capability:
-    supported: false
-    planned_version: "TODO: Future version"
-    description: "TODO: Planned feature description"
+    supported: true
+    description: "Provides characterization labels and comprehensive scoring"
+    features:
+      - "Labels claims with descriptive characteristics"
+      - "Calculates lowest, highest, and average claim scores"
+      - "Provides actionable recommendations"
 
 # Requirements
 requirements:
   packages:
-    - "TODO: Add required Python packages"
+    - "agno"
+    - "openrouter"
+    - "mem0"
   system:
-    - "TODO: Add system dependencies if any"
-  min_memory_mb: 256
+    - "Internet access for fact verification"
+  min_memory_mb: 512
 
 # Performance Metrics
 performance:
-  avg_processing_time_ms: 1000
-  max_concurrent_requests: 10
-  memory_per_request_mb: 256
+  avg_processing_time_ms: 5000
+  max_concurrent_requests: 5
+  memory_per_request_mb: 512
   scalability: horizontal
 
 # Tool Restrictions
@@ -66,159 +79,166 @@ allowed_tools:
 # Rich Documentation
 documentation:
   overview: |
-    TODO: Provide a comprehensive overview of your skill.
-    Describe what it does, how it works, and what makes it useful.
-    Include information about the underlying technologies or approaches used.
+    This skill provides objective, centrist-oriented analysis of research papers and arguments.
+    It extracts truth claims, evaluates them with both supporting and refuting evidence,
+    identifies logical fallacies, and assigns quality ratings. The agent uses LLM capabilities
+    to deeply analyze arguments and provide balanced assessments with verifiable references.
+    Built on the Agno framework with OpenRouter for LLM access and Mem0 for memory.
 
   use_cases:
     when_to_use:
-      - "TODO: Scenario 1 when this skill should be used"
-      - "TODO: Scenario 2 when this skill should be used"
-      - "TODO: Scenario 3 when this skill should be used"
+      - "Evaluating research papers for claim validity"
+      - "Fact-checking academic arguments and assertions"
+      - "Identifying logical fallacies in scientific writing"
+      - "Getting balanced perspectives on controversial claims"
+      - "Peer review assistance and critical analysis"
 
     when_not_to_use:
-      - "TODO: Scenario when this skill should NOT be used"
-      - "TODO: Alternative skill or approach for those scenarios"
-      - "TODO: Limitations or constraints"
+      - "Simple summarization tasks (use a summarization skill instead)"
+      - "Creative writing or content generation"
+      - "Real-time fact-checking without verification time"
+      - "Highly specialized domain knowledge without references"
 
   input_structure: |
-    TODO: Describe the expected input format for your skill.
+    Accepts research papers, academic arguments, or claim-based text in plain text or JSON format.
 
-    Example:
+    Example (Plain Text):
+    "Analyze this paper: [full text or excerpt]"
+
+    Example (JSON):
     {
-      "parameter1": "value1",
-      "parameter2": "value2",
-      "options": {
-        "option1": true,
-        "option2": "value"
-      }
+      "content": "Research paper text or argument",
+      "focus": "claims" or "fallacies" or "full"
     }
 
     Constraints:
-    - TODO: List input constraints
-    - TODO: Validation rules
-    - TODO: Supported formats
+    - Input should contain clear arguments or claims
+    - Minimum 50 words for meaningful analysis
+    - Maximum ~10,000 words per request
+    - Text should be in English
 
   output_format: |
-    TODO: Describe the output format your skill produces.
+    Returns structured analysis with sections for claims, evidence, fallacies, and ratings.
 
-    Success Response:
-    {
-      "success": true,
-      "result": {
-        "data": "TODO: Your result data",
-        "metadata": {
-          "processing_time_ms": 1000,
-          "additional_info": "value"
-        }
-      }
-    }
-
-    Error Response:
-    {
-      "success": false,
-      "error": {
-        "code": "ERROR_CODE",
-        "message": "Error description"
-      }
-    }
+    Output Structure:
+    - ARGUMENT SUMMARY: Brief summary (< 30 words)
+    - TRUTH CLAIMS: For each claim:
+      - CLAIM: The claim statement (< 16 words)
+      - CLAIM SUPPORT EVIDENCE: Supporting facts with references
+      - CLAIM REFUTATION EVIDENCE: Contradicting facts with references
+      - LOGICAL FALLACIES: Identified fallacies with examples
+      - CLAIM RATING: A/B/C/D/F quality score
+      - LABELS: Characterization labels
+    - OVERALL SCORE:
+      - LOWEST CLAIM SCORE
+      - HIGHEST CLAIM SCORE
+      - AVERAGE CLAIM SCORE
+    - OVERALL ANALYSIS: 30-word summary with recommendations
 
   error_handling:
-    - "TODO: Error type 1 and how it's handled"
-    - "TODO: Error type 2 and how it's handled"
-    - "TODO: Timeout behavior and fallback strategies"
-    - "TODO: Validation errors and user feedback"
-    - "TODO: Resource limit handling"
+    - "Input too short: Returns error requesting minimum 50 words"
+    - "Input too long: Returns error requesting content under 10,000 words"
+    - "No claims found: Returns analysis explaining lack of verifiable claims"
+    - "API timeout: Retries with exponential backoff, max 3 attempts"
+    - "Reference verification failure: Notes unverifiable claims in output"
 
   examples:
-    - title: "TODO: Example 1 Title"
+    - title: "Climate Research Paper Analysis"
       input:
-        parameter1: "value1"
-        parameter2: "value2"
+        content: "Recent studies show that global temperatures have risen 1.1C since pre-industrial times, primarily due to human activities."
       output:
-        success: true
-        result:
-          data: "example output"
-        metadata:
-          processing_time_ms: 500
+        argument_summary: "Claims human activity caused 1.1C temperature rise since pre-industrial era."
+        claims_analyzed: 2
+        average_rating: "B"
+        processing_time_ms: 4500
 
-    - title: "TODO: Example 2 Title"
+    - title: "Medical Study Evaluation"
       input:
-        parameter1: "different_value"
-        options:
-          option1: true
+        content: "This double-blind study of 500 participants demonstrates that the new treatment reduces symptoms by 40% compared to placebo."
+        focus: "full"
       output:
-        success: true
-        result:
-          data: "example output 2"
-        metadata:
-          processing_time_ms: 750
+        argument_summary: "Double-blind study claims 40% symptom reduction with new treatment."
+        claims_analyzed: 3
+        fallacies_found: 0
+        average_rating: "A"
+        processing_time_ms: 5200
 
   best_practices:
     for_developers:
-      - "TODO: Best practice 1 for implementing this skill"
-      - "TODO: Best practice 2 for error handling"
-      - "TODO: Best practice 3 for performance optimization"
-      - "TODO: Best practice 4 for testing and validation"
+      - "Provide full context and complete arguments for best analysis"
+      - "Include source citations in input when available"
+      - "Use JSON format for structured requests with specific focus areas"
+      - "Allow 5-10 seconds processing time for comprehensive analysis"
 
     for_orchestrators:
-      - "TODO: When to route requests to this skill"
-      - "TODO: How to chain this skill with others"
-      - "TODO: Performance considerations for load balancing"
-      - "TODO: Retry and fallback strategies"
-      - "TODO: Monitoring and observability recommendations"
+      - "Route academic papers, research studies, and argument analysis here"
+      - "Chain with summarization skill first for very long documents"
+      - "Consider rate limiting to 5 concurrent requests max"
+      - "Implement 30-second timeout with retry logic"
+      - "Monitor for reference verification accuracy and response quality"
 
   installation: |
-    TODO: Provide installation instructions for your skill.
+    Installation instructions for the analyze-paper agent.
 
     Required packages:
-    pip install <your-package-name>
+    uv sync  # Installs all dependencies from pyproject.toml
 
-    Optional dependencies:
-    # TODO: Add platform-specific installation steps if needed
-    # macOS
-    brew install <dependency>
+    Environment variables required:
+    - OPENROUTER_API_KEY: Get from https://openrouter.ai/keys
+    - MEM0_API_KEY: Get from https://app.mem0.ai/dashboard/api-keys
 
-    # Ubuntu/Debian
-    apt-get install <dependency>
-
-    # Windows
-    # TODO: Windows-specific instructions
+    Quick start:
+    1. Clone the repository
+    2. Copy .env.example to .env and add your API keys
+    3. Run: uv venv --python 3.12.9 && source .venv/bin/activate
+    4. Run: uv sync
+    5. Start agent: python -m analyze_paper_agent.main
 
   versioning:
     - version: "1.0.0"
-      date: "TODO: Release date"
-      changes: "Initial release with core functionality"
+      date: "2026-01-10"
+      changes: "Initial release with truth claim analysis, evidence evaluation, fallacy detection, and quality ratings"
     - version: "1.1.0"
       status: "planned"
-      changes: "TODO: Planned enhancements for next version"
+      changes: "Enhanced reference verification, multi-language support, and citation extraction"
 
 # Assessment fields for skill negotiation
 assessment:
   keywords:
-    - "TODO: keyword1"
-    - "TODO: keyword2"
-    - "TODO: keyword3"
-    - "TODO: Add relevant keywords for skill matching"
+    - "analyze"
+    - "research paper"
+    - "truth claims"
+    - "fact check"
+    - "logical fallacy"
+    - "evidence"
+    - "academic"
+    - "argument evaluation"
+    - "claim verification"
 
   specializations:
-    - domain: "TODO: domain1"
+    - domain: "academic research"
+      confidence_boost: 0.4
+    - domain: "scientific papers"
+      confidence_boost: 0.4
+    - domain: "fact-checking"
       confidence_boost: 0.3
-    - domain: "TODO: domain2"
-      confidence_boost: 0.2
+    - domain: "critical analysis"
+      confidence_boost: 0.3
 
   anti_patterns:
-    - "TODO: Pattern that should NOT match this skill"
-    - "TODO: Alternative skill name or approach"
-    - "TODO: Out of scope operations"
+    - "summarize this document"
+    - "write a paper about"
+    - "translate this text"
+    - "generate content"
+    - "creative writing"
 
   complexity_indicators:
     simple:
-      - "TODO: Simple task indicator 1"
-      - "TODO: Simple task indicator 2"
+      - "single claim analysis"
+      - "basic fact check"
     medium:
-      - "TODO: Medium complexity indicator 1"
-      - "TODO: Medium complexity indicator 2"
+      - "research paper with 3-5 claims"
+      - "argument with multiple evidence points"
     complex:
-      - "TODO: Complex task indicator 1"
-      - "TODO: Complex task indicator 2"
+      - "comprehensive paper analysis with 10+ claims"
+      - "multi-faceted argument with competing evidence"
