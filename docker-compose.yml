@@ -1,0 +1,27 @@
+services:
+  analyze_paper_agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: analyze_paper_agent
+    ports:
+      - "3773:3773"
+    environment:
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+      
+
+    env_file:
+      - .env
+    volumes:
+      - ./analyze_paper_agent:/app/analyze_paper_agent
+      - ./agent_config.json:/app/agent_config.json
+    restart: unless-stopped
+    networks:
+      - analyze_paper_agent-network
+    
+
+networks:
+  analyze_paper_agent-network:
+    driver: bridge
+
+
