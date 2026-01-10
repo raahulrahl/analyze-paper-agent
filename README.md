@@ -133,33 +133,12 @@ For complete API documentation, request/response formats, and examples, visit:
 
 📚 **[Bindu API Reference - Send Message to Agent](https://docs.getbindu.com/api-reference/all-the-tasks/send-message-to-agent)**
 
-### Example Request
-
-```bash
-curl -X POST http://localhost:3773/chat \
-  -H "Content-Type: application/json" \
-  -d '{
-    "messages": [
-      {
-        "role": "user",
-        "content": "concise summary https://arxiv.org/abs/1706.03762"
-      }
-    ]
-  }'
-```
 
 ### Additional Resources
 
 - 📖 [Full API Documentation](https://docs.getbindu.com/api-reference/all-the-tasks/send-message-to-agent)
 - 📦 [Postman Collections](https://github.com/GetBindu/Bindu/tree/main/postman/collections)
 - 🔧 [API Reference](https://docs.getbindu.com)
-
-### Performance
-
-- **Max concurrent requests**: 5
-- **Average processing time**: ~5 seconds
-- **Memory per request**: 512MB
-- **Recommended timeout**: 30 seconds
 
 ---
 
