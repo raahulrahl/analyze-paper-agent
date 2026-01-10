@@ -2,12 +2,10 @@
   <img src="https://raw.githubusercontent.com/getbindu/create-bindu-agent/refs/heads/main/assets/light.svg" alt="bindu Logo" width="200">
 </p>
 
-<h1 align="center">analyze-paper-agent</h1>
-<h3 align="center">An agent that analyzes research papers by extracting key findings, evaluating methodology, and summarizing scientific quality.</h3>
+<h1 align="center">Analyze Paper Agent</h1>
 
 <p align="center">
-  <strong>An agent that analyzes research papers by extracting key findings, evaluating methodology, and summarizing scientific quality.</strong><br/>
-  An agent that analyzes research papers by extracting key findings, evaluating methodology, and summarizing scientific quality.
+  <strong>AI-powered research paper analysis with evidence-based evaluation</strong>
 </p>
 
 <p align="center">
@@ -24,162 +22,228 @@
 
 ---
 
-## 💡 Why This Exists
+## 📖 Overview
 
-**Stop endless scrolling.** This AI agent understands what you *actually* want:
+An intelligent agent that analyzes research papers by extracting truth claims, evaluating evidence, identifying logical fallacies, and providing balanced assessments with quality ratings. Built on the [Bindu Agent Framework](https://github.com/getbindu/bindu) for the Internet of Agents.
 
-**Perfect for:** An agent that analyzes research papers by extracting key findings, evaluating methodology, and summarizing scientific quality.
+**Key Capabilities:**
+- 🔍 Extracts and evaluates truth claims from research papers
+- ✅ Provides supporting and refuting evidence with verifiable references
+- 🚨 Identifies logical fallacies with examples
+- 📊 Assigns quality ratings (A-F scale) to claims
+- ⚖️ Generates balanced, centrist-oriented analysis
 
 ---
 
-> **🌐 Join the Internet of Agents**
-> Register your agent at [bindus.directory](https://bindus.directory) to make it discoverable worldwide and enable agent-to-agent collaboration. **It takes 2 minutes and unlocks the full potential of your agent.**
-
----
-
-## 📚 Quick Links
-
-- 📖 **[Full Documentation](https://raahulrahl.github.io/analyze-paper-agent/)**
-- 💻 **[GitHub Repository](https://github.com/raahulrahl/analyze-paper-agent/)**
-- 🐛 **[Report Issues](https://github.com/raahulrahl/analyze-paper-agent/issues)**
-- 💬 **[Join Discord](https://discord.gg/3w5zuYUuwt)**
-- 🌐 **[Agent Directory](https://bindus.directory)**
-
-<br/>
-
-## ⚡ Quick Start - Deploy to bindus.directory in 5 Minutes
-
-This guide will help you deploy your agent to [bindus.directory](https://bindus.directory) where it becomes discoverable worldwide and can collaborate with other agents. **GitHub Actions will automatically build, containerize, and register your agent.**
+## 🚀 Quick Start
 
 ### Prerequisites
 
 - Python 3.10+
-- [uv](https://github.com/astral-sh/uv) (fast Python package installer)
-- [GitHub CLI](https://cli.github.com/) (`gh`)
-- GitHub account
-- Docker Hub account (free)
+- [uv](https://github.com/astral-sh/uv) package manager
+- API keys for OpenRouter and Mem0 (both have free tiers)
 
----
-
-### 1️⃣ Local Setup & Configuration
+### Installation
 
 ```bash
-# Clone and setup the project
+# Clone the repository
+git clone https://github.com/raahulrahl/analyze-paper-agent.git
 cd analyze-paper-agent
+
+# Create virtual environment
 uv venv --python 3.12.9
-source .venv/bin/activate
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install dependencies
 uv sync
 
-# Configure API keys
+# Configure environment
 cp .env.example .env
 ```
 
-Edit `.env` and add your keys:
+### Configuration
 
-| Key | Get It From | Free Tier? |
-|-----|-------------|------------|
+Edit `.env` and add your API keys:
+
+| Key | Get It From | Required |
+|-----|-------------|----------|
 | `OPENROUTER_API_KEY` | [OpenRouter](https://openrouter.ai/keys) | ✅ Yes |
 | `MEM0_API_KEY` | [Mem0 Dashboard](https://app.mem0.ai/dashboard/api-keys) | ✅ Yes |
 
----
-
-### 2️⃣ Setup GitHub Authentication
-
-Authenticate with GitHub CLI:
+### Run the Agent
 
 ```bash
-# Check if you're already logged in
-gh auth status
+# Start the agent
+python -m analyze_paper_agent
 
-# If not logged in, authenticate with GitHub
+# Agent will be available at http://localhost:3773
+```
+
+---
+
+## 💡 Usage
+
+### Example Queries
+
+```bash
+# Analyze a research paper
+"Analyze the claims in this climate change research paper"
+
+# Evaluate arguments and evidence
+"Evaluate the methodology and evidence in this medical study"
+
+# Identify logical fallacies
+"Identify logical fallacies in this economic policy paper"
+```
+
+### Input Formats
+
+**Plain Text:**
+```
+Analyze this paper: [paste your research paper text here]
+```
+
+**JSON:**
+```json
+{
+  "content": "Research paper text or argument",
+  "focus": "claims"
+}
+```
+
+### Output Structure
+
+The agent returns structured analysis with:
+- **Argument Summary**: Brief overview (< 30 words)
+- **Truth Claims**: Each claim with:
+  - Supporting evidence with references
+  - Refuting evidence with references
+  - Logical fallacies identified
+  - Quality rating (A-F)
+  - Characterization labels
+- **Overall Score**: Lowest, highest, and average claim scores
+- **Overall Analysis**: Summary with actionable recommendations
+
+---
+
+## 🎯 Skills
+
+### analyze-paper (v1.0.0)
+
+**Primary Capability:**
+- Analyzes truth claims and arguments with evidence-based evaluation
+- Extracts verifiable claims from research papers
+- Provides balanced perspectives with both supporting and refuting evidence
+
+**Features:**
+- Evidence verification with external sources
+- Logical fallacy detection
+- Quality scoring system (A-F scale)
+- Comprehensive claim characterization
+- Balanced, centrist-oriented analysis
+
+**Best Used For:**
+- Evaluating research papers for claim validity
+- Fact-checking academic arguments
+- Peer review assistance
+- Getting balanced perspectives on controversial claims
+
+**Not Suitable For:**
+- Simple summarization (use a summarization skill instead)
+- Creative writing or content generation
+- Real-time fact-checking without verification time
+
+**Performance:**
+- Average processing time: ~5 seconds
+- Max concurrent requests: 5
+- Memory per request: 512MB
+
+---
+
+## 🐳 Docker Deployment
+
+### Local Docker Setup
+
+```bash
+# Build and run with Docker Compose
+docker-compose up --build
+
+# Agent will be available at http://localhost:3773
+```
+
+### Docker Configuration
+
+The agent runs on port `3773` and requires:
+- `OPENROUTER_API_KEY` environment variable
+- `MEM0_API_KEY` environment variable
+
+Configure these in your `.env` file before running.
+
+### Production Deployment
+
+```bash
+# Use production compose file
+docker-compose -f docker-compose.prod.yml up -d
+```
+
+---
+
+## 🌐 Deploy to bindus.directory
+
+Make your agent discoverable worldwide and enable agent-to-agent collaboration.
+
+### Setup GitHub Secrets
+
+```bash
+# Authenticate with GitHub
 gh auth login
-```
 
-Follow the prompts:
-1. Select **GitHub.com**
-2. Choose **SSH** as your preferred protocol
-3. Authenticate via your browser or token
-
----
-
-### 3️⃣ Create GitHub Repository
-
-#### Initialize git repository and commit your code
-
-```bash
-git init -b main
-git add .
-git commit -m "Initial commit"
-```
-
-#### Create repository on GitHub and push
-
-```bash
-gh repo create raahulrahl/analyze-paper-agent --public --source=. --remote=origin --push
-```
-
-**Alternative: Manual creation**
-1. Create repository at https://github.com/new
-2. Don't initialize with README (you already have one)
-3. Then run:
-```bash
-git remote add origin https://github.com/raahulrahl/analyze-paper-agent.git
-git push -u origin main
-```
----
-
-### 4️⃣ Register on bindus.directory
-
-1. **Login** to [bindus.directory](https://bindus.directory)
-2. **Grab your API key** from the dashboard
-3. **Get Docker Hub token** from [Docker Hub Security Settings](https://hub.docker.com/settings/security)
-
----
-
-### 5️⃣ Configure GitHub Secrets for Auto-Deployment
-
-Set up secrets so GitHub Actions can automatically deploy your agent:
-
-#### GitHub Secrets Setup
-
-```bash
+# Set deployment secrets
 gh secret set BINDU_API_TOKEN --body "<your-bindu-api-key>"
 gh secret set DOCKERHUB_TOKEN --body "<your-dockerhub-token>"
 ```
 
----
+Get your keys:
+- **Bindu API Key**: [bindus.directory](https://bindus.directory) dashboard
+- **Docker Hub Token**: [Docker Hub Security Settings](https://hub.docker.com/settings/security)
 
-### 6️⃣ Deploy! 🚀
-
-**Push to trigger automatic deployment:**
+### Deploy
 
 ```bash
+# Push to trigger automatic deployment
 git push origin main
 ```
 
-**What happens automatically:**
-1. ✅ GitHub Actions builds your agent
-2. ✅ Creates a Docker container
-3. ✅ Pushes to Docker Hub
-4. ✅ Registers on bindus.directory
-5. ✅ Your agent is now live and discoverable!
-
-**That's it!** 🎉 Your agent is now part of the Internet of Agents.
+GitHub Actions will automatically:
+1. Build your agent
+2. Create Docker container
+3. Push to Docker Hub
+4. Register on bindus.directory
 
 ---
 
-## 💡 Usage Examples
+## 🛠️ Development
 
-Try these queries:
+### Project Structure
 
-```python
-# Natural language search
-An agent that analyzes research papers by extracting key findings, evaluating methodology, and summarizing scientific quality.
 ```
-
----
-
-## 🛠️ Development Setup
+analyze-paper-agent/
+├── analyze_paper_agent/
+│   ├── skills/
+│   │   └── analyze-paper/
+│   │       ├── skill.yaml          # Skill configuration
+│   │       └── __init__.py
+│   ├── __init__.py
+│   ├── __main__.py
+│   ├── main.py                     # Agent entry point
+│   └── agent_config.json           # Agent configuration
+├── tests/
+│   └── test_main.py
+├── .env.example
+├── docker-compose.yml
+├── Dockerfile.agent
+└── pyproject.toml
+```
 
 ### Running Tests
 
@@ -191,95 +255,67 @@ make test-cov          # With coverage report
 ### Code Quality
 
 ```bash
-make format            # Format code
+make format            # Format code with ruff
 make lint              # Run linters
 make check             # Format + lint + test
 ```
 
 ### Pre-commit Hooks
 
-Fix formatting issues before committing:
-
 ```bash
+# Install pre-commit hooks
+uv run pre-commit install
+
+# Run manually
 uv run pre-commit run -a
 ```
 
 ---
 
-## 🐳 Docker Deployment
+## 🤝 Contributing
 
-### Local Docker
+Contributions are welcome! Please follow these steps:
 
-```bash
-# Build and run
-docker-compose up --build
-
-# Production mode
-docker-compose -f docker-compose.prod.yml up
-```
-
-### Docker Hub Auto-Deploy
-
-Enable automatic Docker image publishing:
-
-1. Go to **Settings → Secrets → Actions**
-2. Add secret: `DOCKERHUB_TOKEN` (get from [Docker Hub](https://hub.docker.com/settings/security))
-3. Push to `main` → Image auto-builds and publishes 🚀
-
----
-
-## 🏗️ Project Structure
-
-```
-analyze-paper-agent/
-├── analyze_paper_agent/    # Main agent code
-│   ├── skills/             # Agent capabilities
-│   │   └── analyze_paper_agent/ # analyze-paper-agent skill
-│   └── __init__.py
-├── tests/                  # Test suite
-├── docs/                   # Documentation
-├── .env.example            # Environment template
-├── docker-compose.yml      # Docker setup
-└── pyproject.toml          # Dependencies
-```
-
-
-<br/>
-
-## 🌟 Contributing
-
-We love contributions! Here's how to get started:
-
-1. **Fork** the repository
-2. **Create** a feature branch: `git checkout -b feature/amazing-feature`
-3. **Commit** your changes: `git commit -m 'Add amazing feature'`
-4. **Push** to the branch: `git push origin feature/amazing-feature`
-5. **Open** a Pull Request
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes: `git commit -m 'Add amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ---
 
-## 📝 License
+## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🙏 Acknowledgments
+## 🙏 Powered by Bindu
 
-**Built with [Bindu Agent Framework](https://github.com/getbindu/bindu)**
+Built with the [Bindu Agent Framework](https://github.com/getbindu/bindu)
 
-- 🌐 **A2A, AP2, X402 protocols** for Internet of Agents communication
-- ⚡ **Zero-config setup** - from idea to production in minutes
-- 🛠️ **Production-ready** out of the box
+**Why Bindu?**
+- 🌐 **Internet of Agents**: A2A, AP2, X402 protocols for agent collaboration
+- ⚡ **Zero-config setup**: From idea to production in minutes
+- 🛠️ **Production-ready**: Built-in deployment, monitoring, and scaling
 
-### Want to Build Your Own Agent?
-
+**Build Your Own Agent:**
 ```bash
-# Create a new agent in 2 minutes
 uvx cookiecutter https://github.com/getbindu/create-bindu-agent.git
 ```
+
+---
+
+## 📚 Resources
+
+- 📖 [Full Documentation](https://raahulrahl.github.io/analyze-paper-agent/)
+- 💻 [GitHub Repository](https://github.com/raahulrahl/analyze-paper-agent/)
+- 🐛 [Report Issues](https://github.com/raahulrahl/analyze-paper-agent/issues)
+- 💬 [Join Discord](https://discord.gg/3w5zuYUuwt)
+- 🌐 [Agent Directory](https://bindus.directory)
+- 📚 [Bindu Documentation](https://docs.getbindu.com)
 
 ---
 
@@ -290,9 +326,5 @@ uvx cookiecutter https://github.com/getbindu/create-bindu-agent.git
 <p align="center">
   <a href="https://github.com/raahulrahl/analyze-paper-agent">⭐ Star this repo</a> •
   <a href="https://discord.gg/3w5zuYUuwt">💬 Join Discord</a> •
-  <a href="https://docs.getbindu.com">📚 Bindu Docs</a>
-</p>
-
-<p align="center">
-  <em>From idea to Internet of Agents in minutes. 🌻🚀✨</em>
+  <a href="https://bindus.directory">🌐 Agent Directory</a>
 </p>

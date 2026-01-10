@@ -32,6 +32,11 @@ jobs:
           username: raahulrahl
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Read version
+        id: version
+        run: |
+          echo "version=$(cat .version | tr -d '\n')" >> $GITHUB_OUTPUT
+
       - name: Build and push
         id: docker_build
         uses: docker/build-push-action@v5
@@ -40,7 +45,11 @@ jobs:
           file: ./Dockerfile.agent
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: raahulrahl/analyze-paper-agent:latest
+          tags: |
+            raahulrahl/analyze-paper-agent:latest
+            raahulrahl/analyze-paper-agent:${{ steps.version.outputs.version }}
+            raahulrahl/analyze-paper-agent:build-${{ github.run_number }}
+            raahulrahl/analyze-paper-agent:${{ github.sha }}
           cache-from: type=registry,ref=raahulrahl/analyze-paper-agent:buildcache
           cache-to: type=registry,ref=raahulrahl/analyze-paper-agent:buildcache,mode=max
 
