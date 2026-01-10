@@ -12,9 +12,6 @@
   <a href="https://github.com/raahulrahl/analyze-paper-agent/actions/workflows/main.yml?query=branch%3Amain">
     <img src="https://img.shields.io/github/actions/workflow/status/raahulrahl/analyze-paper-agent/main.yml?branch=main" alt="Build status">
   </a>
-  <a href="https://codecov.io/gh/raahulrahl/analyze-paper-agent">
-    <img src="https://codecov.io/gh/raahulrahl/analyze-paper-agent/branch/main/graph/badge.svg" alt="codecov">
-  </a>
   <a href="https://img.shields.io/github/license/raahulrahl/analyze-paper-agent">
     <img src="https://img.shields.io/github/license/raahulrahl/analyze-paper-agent" alt="License">
   </a>
@@ -68,13 +65,13 @@ Edit `.env` and add your API keys:
 | Key | Get It From | Required |
 |-----|-------------|----------|
 | `OPENROUTER_API_KEY` | [OpenRouter](https://openrouter.ai/keys) | ✅ Yes |
-| `MEM0_API_KEY` | [Mem0 Dashboard](https://app.mem0.ai/dashboard/api-keys) | ✅ Yes |
+| `MEM0_API_KEY` | [Mem0 Dashboard](https://app.mem0.ai/dashboard/api-keys) | If you want to use Mem0 tools |
 
 ### Run the Agent
 
 ```bash
 # Start the agent
-python -m analyze_paper_agent
+uv run python -m analyze_paper_agent
 
 # Agent will be available at http://localhost:3773
 ```
@@ -87,7 +84,7 @@ python -m analyze_paper_agent
 
 ```bash
 # Analyze a research paper
-"Analyze the claims in this climate change research paper"
+"concise summary https://arxiv.org/abs/1706.03762"
 
 # Evaluate arguments and evidence
 "Evaluate the methodology and evidence in this medical study"
@@ -123,6 +120,46 @@ The agent returns structured analysis with:
   - Characterization labels
 - **Overall Score**: Lowest, highest, and average claim scores
 - **Overall Analysis**: Summary with actionable recommendations
+
+---
+
+## 🔌 API Usage
+
+The agent exposes a RESTful API when running. Default endpoint: `http://localhost:3773`
+
+### Quick Start
+
+For complete API documentation, request/response formats, and examples, visit:
+
+📚 **[Bindu API Reference - Send Message to Agent](https://docs.getbindu.com/api-reference/all-the-tasks/send-message-to-agent)**
+
+### Example Request
+
+```bash
+curl -X POST http://localhost:3773/chat \
+  -H "Content-Type: application/json" \
+  -d '{
+    "messages": [
+      {
+        "role": "user",
+        "content": "concise summary https://arxiv.org/abs/1706.03762"
+      }
+    ]
+  }'
+```
+
+### Additional Resources
+
+- 📖 [Full API Documentation](https://docs.getbindu.com/api-reference/all-the-tasks/send-message-to-agent)
+- 📦 [Postman Collections](https://github.com/GetBindu/Bindu/tree/main/postman/collections)
+- 🔧 [API Reference](https://docs.getbindu.com)
+
+### Performance
+
+- **Max concurrent requests**: 5
+- **Average processing time**: ~5 seconds
+- **Memory per request**: 512MB
+- **Recommended timeout**: 30 seconds
 
 ---
 
