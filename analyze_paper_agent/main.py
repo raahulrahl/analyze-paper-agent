@@ -21,6 +21,7 @@ from agno.agent import Agent
 from agno.models.openrouter import OpenRouter
 from agno.tools.mcp import MultiMCPTools
 from agno.tools.mem0 import Mem0Tools
+from agno.tools.arxiv import ArxivTools
 from bindu.penguin.bindufy import bindufy
 from dotenv import load_dotenv
 
@@ -82,11 +83,20 @@ async def initialize_agent() -> None:
 
     agent = Agent(
         name="analyze-paper-agent Bindu Agent",
-        model=OpenRouter(id=model_name),
+        model=OpenRouter(
+            id=model_name,
+            api_key=api_key,
+            cache_response=True,
+            supports_native_structured_outputs=True,
+        ),
         tools=[
-            tool for tool in [mcp_tools, Mem0Tools(api_key=mem0_api_key)] if tool is not None
+            tool for tool in [
+                mcp_tools,
+                Mem0Tools(api_key=mem0_api_key),
+                ArxivTools(all=True)
+            ] if tool is not None
         ],  # MultiMCPTools instance
-        instructions=dedent("""\
+        instructions=[dedent("""\
             # IDENTITY and PURPOSE
 You are an objectively minded and centrist-oriented analyzer of truth claims and arguments.
 
@@ -132,7 +142,7 @@ HIGHEST CLAIM SCORE:
 AVERAGE CLAIM SCORE:
 
 - In a section called OVERALL ANALYSIS:, give a 30-word summary of the quality of the argument(s) made in the input, its weaknesses, its strengths, and a recommendation for how to possibly update one's understanding of the world based on the arguments provided.
-        """),
+        """)],
         add_datetime_to_context=True,
         markdown=True,
     )
@@ -163,7 +173,7 @@ async def run_agent(messages: list[dict[str, str]]) -> Any:
     global agent
 
     # Run the agent and get response
-    response = await agent.arun(messages)
+    response = agent.run(messages)
     return response
 
 
@@ -216,8 +226,8 @@ def main():
     parser.add_argument(
         "--model",
         type=str,
-        default=os.getenv("MODEL_NAME", "openai/gpt-5-mini"),
-        help="Model ID to use (default: openai/gpt-5-mini, env: MODEL_NAME), if you want you can use any free model: https://openrouter.ai/models?q=free",
+        default=os.getenv("MODEL_NAME", "openai/gpt-oss-120b:free"),
+        help="Model ID to use (default: openai/gpt-oss-120b:free, env: MODEL_NAME), if you want you can use any free model: https://openrouter.ai/models?q=free",
     )
 
     parser.add_argument(

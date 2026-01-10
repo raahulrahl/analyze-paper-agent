@@ -17,6 +17,8 @@ dependencies = [
     "sqlalchemy>=2.0.45",
     "mem0ai>=1.0.1",
     "ddgs>=9.9.3",
+    "arxiv>=2.4.0",
+    "pypdf>=6.6.0",
 ]
 classifiers = [
     "Intended Audience :: Developers",
