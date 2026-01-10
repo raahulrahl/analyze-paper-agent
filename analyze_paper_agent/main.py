@@ -173,7 +173,7 @@ async def run_agent(messages: list[dict[str, str]]) -> Any:
     global agent
 
     # Run the agent and get response
-    response = agent.run(messages)
+    response = await agent.arun(messages)
     return response
 
 
