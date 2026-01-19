@@ -121,6 +121,81 @@ The agent returns structured analysis with:
 - **Overall Score**: Lowest, highest, and average claim scores
 - **Overall Analysis**: Summary with actionable recommendations
 
+### Real Example: Transformer Paper Analysis
+
+**Input Query:**
+```
+Identify logical fallacies in this paper https://arxiv.org/abs/1706.03762
+```
+
+**Output Sample:**
+
+```markdown
+## ARGUMENT SUMMARY:
+Self-attention alone can replace recurrence and convolution while achieving 
+superior translation performance with greater efficiency.
+
+## TRUTH CLAIMS:
+
+### CLAIM 1
+#### CLAIM:
+Self-attention architectures outperform recurrent and convolutional models 
+for machine translation.
+
+#### CLAIM SUPPORT EVIDENCE:
+- Higher BLEU scores on WMT 2014 English–German and English–French tasks
+- Vaswani et al. (2017) report BLEU 28.4 (En-De) exceeding prior benchmarks
+- Results reproduced and extended in subsequent work
+
+**References:**
+- Vaswani et al., 2017, *Attention Is All You Need*, arXiv:1706.03762
+- Gehring et al., 2017, *Convolutional Sequence to Sequence Learning*
+
+#### CLAIM REFUTATION EVIDENCE:
+- Performance gains depend on hyperparameter tuning, dataset size, and compute
+- Hybrid models and improved RNNs can match or exceed early Transformer results
+- BLEU improvements were modest and within variance ranges
+
+**References:**
+- Britz et al., 2017, *Massive Exploration of Neural Machine Translation*
+- Melis et al., 2018, *On the State of the Art of Evaluation in Neural Language Models*
+
+#### LOGICAL FALLACIES:
+- **Overgeneralization**: "We propose a new simple network architecture… 
+  that relies solely on attention mechanisms."
+- **Selection Bias**: Focus on benchmarks where Transformers perform best.
+
+#### CLAIM RATING:
+**B (High)**
+
+#### LABELS:
+Empirically supported, overgeneralized, benchmark-dependent
+
+---
+
+### CLAIM 2
+#### CLAIM:
+Recurrence and convolution are unnecessary for modeling sequence dependencies.
+
+#### LOGICAL FALLACIES:
+- **False Dichotomy**: "Without recurrence or convolution…" implies 
+  exclusivity where hybrids exist.
+- **Scope Overshoot**: Generalizing from translation to all sequence modeling.
+
+#### CLAIM RATING:
+**C (Medium)**
+
+#### LABELS:
+Reductionist, overextended, architectural absolutism
+```
+
+**Key Features Demonstrated:**
+- ✅ ArxivTools integration for automatic paper retrieval
+- ✅ Both supporting AND refuting evidence with verifiable references
+- ✅ Logical fallacy identification with quoted examples
+- ✅ A-F quality ratings per claim
+- ✅ Characterization labels for balanced assessment
+
 ---
 
 ## 🔌 API Usage

@@ -224,8 +224,8 @@ def main():
     parser.add_argument(
         "--model",
         type=str,
-        default=os.getenv("MODEL_NAME", "openai/gpt-oss-120b:free"),
-        help="Model ID to use (default: openai/gpt-oss-120b:free, env: MODEL_NAME), if you want you can use any free model: https://openrouter.ai/models?q=free",
+        default=os.getenv("MODEL_NAME", "openai/gpt-5.2-chat"),
+        help="Model ID to use (default: openai/gpt-5.2-chat, env: MODEL_NAME), if you want you can use any free model: https://openrouter.ai/models?q=free",
     )
 
     parser.add_argument(
