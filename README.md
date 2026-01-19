@@ -132,14 +132,14 @@ Identify logical fallacies in this paper https://arxiv.org/abs/1706.03762
 
 ```markdown
 ## ARGUMENT SUMMARY:
-Self-attention alone can replace recurrence and convolution while achieving 
+Self-attention alone can replace recurrence and convolution while achieving
 superior translation performance with greater efficiency.
 
 ## TRUTH CLAIMS:
 
 ### CLAIM 1
 #### CLAIM:
-Self-attention architectures outperform recurrent and convolutional models 
+Self-attention architectures outperform recurrent and convolutional models
 for machine translation.
 
 #### CLAIM SUPPORT EVIDENCE:
@@ -161,7 +161,7 @@ for machine translation.
 - Melis et al., 2018, *On the State of the Art of Evaluation in Neural Language Models*
 
 #### LOGICAL FALLACIES:
-- **Overgeneralization**: "We propose a new simple network architecture… 
+- **Overgeneralization**: "We propose a new simple network architecture…
   that relies solely on attention mechanisms."
 - **Selection Bias**: Focus on benchmarks where Transformers perform best.
 
@@ -178,7 +178,7 @@ Empirically supported, overgeneralized, benchmark-dependent
 Recurrence and convolution are unnecessary for modeling sequence dependencies.
 
 #### LOGICAL FALLACIES:
-- **False Dichotomy**: "Without recurrence or convolution…" implies 
+- **False Dichotomy**: "Without recurrence or convolution…" implies
   exclusivity where hybrids exist.
 - **Scope Overshoot**: Generalizing from translation to all sequence modeling.
 
