@@ -21,7 +21,6 @@ from agno.agent import Agent
 from agno.models.openrouter import OpenRouter
 from agno.tools.arxiv import ArxivTools
 from agno.tools.mcp import MultiMCPTools
-from agno.tools.mem0 import Mem0Tools
 from bindu.penguin.bindufy import bindufy
 from dotenv import load_dotenv
 
@@ -89,9 +88,7 @@ async def initialize_agent() -> None:
             cache_response=True,
             supports_native_structured_outputs=True,
         ),
-        tools=[
-            tool for tool in [mcp_tools, Mem0Tools(api_key=mem0_api_key), ArxivTools(all=True)] if tool is not None
-        ],  # MultiMCPTools instance
+        tools=[tool for tool in [mcp_tools, ArxivTools(all=True)] if tool is not None],  # MultiMCPTools instance
         instructions=[
             dedent("""\
             # IDENTITY and PURPOSE

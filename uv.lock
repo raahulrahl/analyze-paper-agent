@@ -144,7 +144,7 @@ dev = [
 requires-dist = [
     { name = "agno", specifier = ">=2.2.0" },
     { name = "arxiv", specifier = ">=2.4.0" },
-    { name = "bindu", specifier = "==2026.3.3" },
+    { name = "bindu", specifier = "==2026.3.5" },
     { name = "ddgs", specifier = ">=9.9.3" },
     { name = "fastmcp", specifier = ">=2.11.0" },
     { name = "mem0ai", specifier = ">=1.0.1" },
@@ -312,7 +312,7 @@ wheels = [
 
 [[package]]
 name = "bindu"
-version = "2026.3.3"
+version = "2026.3.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "agno" },
@@ -353,9 +353,9 @@ dependencies = [
     { name = "web3" },
     { name = "x402" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e6/c7/d00989ab579f88d1fa9673bd977e71d694ad81f263d97bd63ecfe0f6dad2/bindu-2026.3.3.tar.gz", hash = "sha256:9e180563a73e52d8615391b2ab4cbed8f85989ffc9b3a1d64c3a8962db499ef7", size = 8547323, upload-time = "2026-01-19T17:52:47.613Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/0a/89/41831d8a777e289429a808b3d89ab7a245b9b3cb075f2a9fb59235e3ef76/bindu-2026.3.5.tar.gz", hash = "sha256:86a84d9574fbec9091e4dbcaa5e20cae6e849317dc99ac9f9d72c88b6b95584a", size = 8552534, upload-time = "2026-01-22T00:44:11.606Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1d/39/a066707e1f3cd7f871a0c9e1c4323a5f228a3ef4361bbd71726efb4dfe13/bindu-2026.3.3-py3-none-any.whl", hash = "sha256:01b4d36979d5784fe795fa71555e1176a74798c9819f3ba41fba87af5a1beb8b", size = 229440, upload-time = "2026-01-19T17:52:49.272Z" },
+    { url = "https://files.pythonhosted.org/packages/48/e4/1fcb8ece83a0733b9c511ae88bc471284f4b3527e64be679cb26c7234123/bindu-2026.3.5-py3-none-any.whl", hash = "sha256:faf281098a8b105c4ed0e431d207d5cadbcaea2ff9bf26c7bbe438c5500224b1", size = 234622, upload-time = "2026-01-22T00:44:13.384Z" },
 ]
 
 [[package]]
