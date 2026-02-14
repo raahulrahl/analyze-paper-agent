@@ -167,8 +167,12 @@ async def run_agent(messages: list[dict[str, str]]) -> Any:
     """
     global agent
 
+    if agent is None:
+        msg = "Agent not initialized. Call initialize() first."
+        raise RuntimeError(msg)
+
     # Run the agent and get response
-    response = await agent.arun(messages)
+    response = agent.run(messages)
     return response
 
 
