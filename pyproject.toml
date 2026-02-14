@@ -7,19 +7,18 @@ readme = "README.md"
 keywords = ['python']
 requires-python = ">=3.12,<3.13"
 dependencies = [
-    "bindu==2026.3.5",
     "agno>=2.2.0",
-    "fastmcp>=2.11.0",
+    "fastmcp<=2.11.0",
     "requests>=2.31.0",
     "pyperclip>=1.8.0",
     "rich>=13.0.0",
     "openai>=2.11.0",
-    "sqlalchemy>=2.0.45",
     "mem0ai>=1.0.1",
     "ddgs>=9.9.3",
     "arxiv>=2.4.0",
     "pypdf>=6.6.0",
     "openinference-instrumentation-agno>=0.1.25",
+    "bindu==2026.7.3",
 ]
 classifiers = [
     "Intended Audience :: Developers",
