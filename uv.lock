@@ -143,7 +143,7 @@ dev = [
 requires-dist = [
     { name = "agno", specifier = ">=2.2.0" },
     { name = "arxiv", specifier = ">=2.4.0" },
-    { name = "bindu", specifier = "==2026.8.7.1" },
+    { name = "bindu", specifier = "==2026.8.7.2" },
     { name = "ddgs", specifier = ">=9.9.3" },
     { name = "fastmcp", specifier = "<=2.11.0" },
     { name = "mem0ai", specifier = ">=1.0.1" },
@@ -335,7 +335,7 @@ wheels = [
 
 [[package]]
 name = "bindu"
-version = "2026.8.7.1"
+version = "2026.8.7.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
@@ -375,9 +375,9 @@ dependencies = [
     { name = "web3" },
     { name = "x402" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/03/38/ca311007c82893d6afc436769cd2aacef5b90ee9cb3d2eb5dc6b120aabbf/bindu-2026.8.7.1.tar.gz", hash = "sha256:760188fa7b604fdb946b24ab311d32e933b3b181ef4f18a084b0d5d8a9ac028c", size = 9202689, upload-time = "2026-02-21T08:57:24.245Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/03/cb/f802fda9748139f6ad688a8dca3c79d9b839c35baaffd0bd3dbac81278ac/bindu-2026.8.7.2.tar.gz", hash = "sha256:c49f19c8304aac7846c6d3639587e03f98c1eab542688046d25e70d2af12f38d", size = 9202690, upload-time = "2026-02-21T14:18:57.216Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c8/ed/0acd226f49dd468f11c4e90b1a8a028c0a71c9f057bbb9a27256af95e59c/bindu-2026.8.7.1-py3-none-any.whl", hash = "sha256:f7923443be65bb9e76f3bbafe2511e10074fea92fbe59e8eb4cbd950d601c4ea", size = 236328, upload-time = "2026-02-21T08:57:22.834Z" },
+    { url = "https://files.pythonhosted.org/packages/d0/3b/c25bd7a63ef7db29eed8705b094228c3671b72ac889ece45e3dd8c1db044/bindu-2026.8.7.2-py3-none-any.whl", hash = "sha256:45206ea2a4dd108eb34b4dd52e6606ec2de83e82c63e691efff78ca2a70499fd", size = 236326, upload-time = "2026-02-21T14:18:59.17Z" },
 ]
 
 [[package]]
@@ -1013,7 +1013,7 @@ wheels = [
 
 [[package]]
 name = "fastapi"
-version = "0.129.0"
+version = "0.129.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "annotated-doc" },
@@ -1022,9 +1022,9 @@ dependencies = [
     { name = "typing-extensions" },
     { name = "typing-inspection" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/48/47/75f6bea02e797abff1bca968d5997793898032d9923c1935ae2efdece642/fastapi-0.129.0.tar.gz", hash = "sha256:61315cebd2e65df5f97ec298c888f9de30430dd0612d59d6480beafbc10655af", size = 375450, upload-time = "2026-02-12T13:54:52.541Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f6/37/4aa7f6ce92745458b6ce0acd706dde2ac23a3bf341266b5311c904109f67/fastapi-0.129.1.tar.gz", hash = "sha256:6ccf0eca9644e0d6280115b4fc8281bf55ec5878d4d95572f7b2034ab15708ba", size = 369852, upload-time = "2026-02-21T13:10:03.335Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/9e/dd/d0ee25348ac58245ee9f90b6f3cbb666bf01f69be7e0911f9851bddbda16/fastapi-0.129.0-py3-none-any.whl", hash = "sha256:b4946880e48f462692b31c083be0432275cbfb6e2274566b1be91479cc1a84ec", size = 102950, upload-time = "2026-02-12T13:54:54.528Z" },
+    { url = "https://files.pythonhosted.org/packages/01/f9/f15d92bd6035d4f83be8b82dc527a3e7abc87648fda62cf8d1df344410a7/fastapi-0.129.1-py3-none-any.whl", hash = "sha256:022462403bc385b791df418d8f088eb0e8f1fe7cb8f625d682f5e9da6157cc83", size = 103226, upload-time = "2026-02-21T13:10:05.058Z" },
 ]
 
 [package.optional-dependencies]
