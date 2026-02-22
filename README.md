@@ -30,6 +30,8 @@ An intelligent agent that analyzes research papers by extracting truth claims, e
 - 📊 Assigns quality ratings (A-F scale) to claims
 - ⚖️ Generates balanced, centrist-oriented analysis
 
+-> [Postman Collection link](https://raahul-1409c5b4-717533.postman.co/workspace/getbindu's-Workspace~44eb7cfe-a752-4114-8a1a-631395f07bf1/collection/50606358-a4c51dab-a869-4ece-b820-c109485b00af?action=share&creator=50606358)
+
 ---
 
 ## 🚀 Quick Start
