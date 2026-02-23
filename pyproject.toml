@@ -18,7 +18,7 @@ dependencies = [
     "arxiv>=2.4.0",
     "pypdf>=6.6.0",
     "openinference-instrumentation-agno>=0.1.25",
-    "bindu==2026.9.2",
+    "bindu==2026.9.2.2",
 ]
 classifiers = [
     "Intended Audience :: Developers",
