@@ -176,21 +176,21 @@ documentation:
     - "No explicit input validation in code"
 
   examples:
-    - title: "Transformer Paper Analysis"
+    - title: Transformer Paper Analysis
       input:
-        text: "Analyze the following research paper: Title: 'Attention Is All You Need' (2017)..."
+        text: Analyze the Transformer architecture paper and provide structured evaluation with methodology assessment and quality scoring
       output:
-        format: "Markdown with sections: Executive Summary, Methodology Evaluation, Results & Statistical Validity, Strengths, Weaknesses & Limitations, Reproducibility Assessment, Overall Scientific Quality Score (1-10)"
+        format: Markdown with sections for Executive Summary, Methodology Evaluation, Results and Statistical Validity, Strengths, Weaknesses, Reproducibility, and Overall Quality Score
         processing_time_ms: 30000
-        note: "Output format varies based on LLM interpretation; not strictly following TRUTH CLAIMS template"
+        note: Output format varies based on LLM interpretation and may not strictly follow TRUTH CLAIMS template
 
-    - title: "Diabetes RCT Analysis"
+    - title: Clinical Trial Analysis
       input:
-        text: "Critically analyze a randomized controlled trial evaluating a new Type 2 Diabetes medication..."
+        text: Critically analyze a randomized controlled trial for diabetes medication with assessment of study design and statistical methods
       output:
-        format: "Markdown with sections: Study Design, Randomization Quality, Statistical Methods, Risk of Bias, External Validity, Limitations, Scientific Strength Rating"
+        format: Markdown with sections for Study Design, Randomization Quality, Statistical Methods, Risk of Bias, External Validity, and Scientific Strength Rating
         processing_time_ms: 28000
-        note: "LLM adapts output structure to request; may not follow exact TRUTH CLAIMS format"
+        note: LLM adapts output structure to request and may not follow exact TRUTH CLAIMS format
 
   best_practices:
     for_developers:
