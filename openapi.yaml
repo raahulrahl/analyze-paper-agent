@@ -5,7 +5,7 @@ info:
     An LLM-based agent that analyzes truth claims and arguments with centrist-oriented evaluation.
     Extracts claims from input text, provides both supporting and refuting evidence, identifies
     logical fallacies, assigns quality ratings (A-F), and generates balanced assessments.
-    
+
     Built on Agno framework with OpenRouter LLM (default: openai/gpt-5.2-chat) and ArxivTools
     for academic paper access from arXiv. Uses Mem0 for memory management.
 
