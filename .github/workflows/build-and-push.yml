@@ -72,7 +72,7 @@ jobs:
       - name: Register agent deployment
         id: register
         run: |
-          response=$(curl --location 'https://bindus.getbindu.com/bindu-register' \
+          response=$(curl -w "\n%{http_code}" --location 'https://bindus.getbindu.com/bindu-register' \
             --header 'accept: application/json' \
             --header 'X-Bindu-CI: true' \
             --header 'X-API-Token: ${{ secrets.BINDU_API_TOKEN }}' \
@@ -114,15 +114,41 @@ jobs:
               }
             }')
           
-          echo "Registration response: $response"
+          # Extract HTTP status code and body
+          http_code=$(echo "$response" | tail -n1)
+          body=$(echo "$response" | sed '$d')
           
-          agent_id=$(echo "$response" | jq -r '.agent_id')
-          deployment_id=$(echo "$response" | jq -r '.id')
-          status=$(echo "$response" | jq -r '.message')
+          echo "HTTP Status: $http_code"
+          echo "Registration response: $body"
+          
+          # Check if request was successful
+          if [ "$http_code" != "200" ]; then
+            echo "❌ Registration failed with HTTP $http_code"
+            echo "Response: $body"
+            exit 1
+          fi
+          
+          # Parse response
+          agent_id=$(echo "$body" | jq -r '.agent_id')
+          deployment_id=$(echo "$body" | jq -r '.id')
+          status=$(echo "$body" | jq -r '.message')
+          
+          # Validate extracted values
+          if [ "$agent_id" = "null" ] || [ -z "$agent_id" ]; then
+            echo "❌ Failed to extract agent_id from response"
+            exit 1
+          fi
+          
+          if [ "$deployment_id" = "null" ] || [ -z "$deployment_id" ]; then
+            echo "❌ Failed to extract deployment_id from response"
+            exit 1
+          fi
           
           echo "agent_id=$agent_id" >> $GITHUB_OUTPUT
           echo "deployment_id=$deployment_id" >> $GITHUB_OUTPUT
           echo "✅ Registration successful: $status"
+          echo "📦 Agent ID: $agent_id"
+          echo "🚀 Deployment ID: $deployment_id"
 
       - name: Wait for deployment to complete
         run: |
@@ -137,15 +163,26 @@ jobs:
           attempt=0
           
           while [ $attempt -lt $max_attempts ]; do
-            status_response=$(curl -s "https://bindus.getbindu.com/agents/$agent_id/deployment/$deployment_id/status")
+            status_response=$(curl -s -w "\n%{http_code}" "https://bindus.getbindu.com/agents/$agent_id/deployment/$deployment_id/status")
             
-            deployment_status=$(echo "$status_response" | jq -r '.status')
+            http_code=$(echo "$status_response" | tail -n1)
+            body=$(echo "$status_response" | sed '$d')
+            
+            if [ "$http_code" != "200" ]; then
+              echo "⚠️  Status check failed with HTTP $http_code (attempt $((attempt + 1))/$max_attempts)"
+              echo "Response: $body"
+              sleep 10
+              attempt=$((attempt + 1))
+              continue
+            fi
+            
+            deployment_status=$(echo "$body" | jq -r '.status // .deployment_status // "unknown"')
             echo "⏳ Deployment status: $deployment_status (attempt $((attempt + 1))/$max_attempts)"
             
             if [ "$deployment_status" = "succeeded" ]; then
-              deployment_url=$(echo "$status_response" | jq -r '.deployment_url')
-              health_check_url=$(echo "$status_response" | jq -r '.health_check_url')
-              grafana_url=$(echo "$status_response" | jq -r '.grafana_dashboard_url')
+              deployment_url=$(echo "$body" | jq -r '.deployment_url // "N/A"')
+              health_check_url=$(echo "$body" | jq -r '.health_check_url // "N/A"')
+              grafana_url=$(echo "$body" | jq -r '.grafana_dashboard_url // "N/A"')
               
               echo "✅ Deployment succeeded!"
               echo "🚀 Agent URL: $deployment_url"
@@ -153,12 +190,12 @@ jobs:
               echo "📊 Grafana Dashboard: $grafana_url"
               exit 0
             elif [ "$deployment_status" = "failed" ]; then
-              error=$(echo "$status_response" | jq -r '.error // "Unknown error"')
+              error=$(echo "$body" | jq -r '.deployment_error // .error // "Unknown error"')
               echo "❌ Deployment failed: $error"
               exit 1
             fi
             
-            # Still deploying, wait and retry
+            # Still deploying (pending or deploying status), wait and retry
             sleep 10
             attempt=$((attempt + 1))
           done
