@@ -69,9 +69,10 @@ jobs:
           done
           echo "skills=$(echo $skills_array | jq -c .)" >> $GITHUB_OUTPUT
 
-      - name: Log to backend service
+      - name: Register agent deployment
+        id: register
         run: |
-          curl --location 'https://bindus.getbindu.com/bindu-register' \
+          response=$(curl --location 'https://bindus.getbindu.com/bindu-register' \
             --header 'accept: application/json' \
             --header 'X-Bindu-CI: true' \
             --header 'X-API-Token: ${{ secrets.BINDU_API_TOKEN }}' \
@@ -111,4 +112,57 @@ jobs:
                 "specialization": "${{ fromJson(steps.agent_config.outputs.config).metadata.specialization || 'multi-purpose' }}",
                 "last_updated": "${{ github.event.head_commit.timestamp }}"
               }
-            }'
+            }')
+          
+          echo "Registration response: $response"
+          
+          agent_id=$(echo "$response" | jq -r '.agent_id')
+          deployment_id=$(echo "$response" | jq -r '.id')
+          status=$(echo "$response" | jq -r '.message')
+          
+          echo "agent_id=$agent_id" >> $GITHUB_OUTPUT
+          echo "deployment_id=$deployment_id" >> $GITHUB_OUTPUT
+          echo "✅ Registration successful: $status"
+
+      - name: Wait for deployment to complete
+        run: |
+          agent_id=${{ steps.register.outputs.agent_id }}
+          deployment_id=${{ steps.register.outputs.deployment_id }}
+          
+          echo "🚀 Waiting for Argo deployment to complete..."
+          echo "Agent ID: $agent_id"
+          echo "Deployment ID: $deployment_id"
+          
+          max_attempts=60  # 10 minutes (60 * 10 seconds)
+          attempt=0
+          
+          while [ $attempt -lt $max_attempts ]; do
+            status_response=$(curl -s "https://bindus.getbindu.com/agents/$agent_id/deployment/$deployment_id/status")
+            
+            deployment_status=$(echo "$status_response" | jq -r '.status')
+            echo "⏳ Deployment status: $deployment_status (attempt $((attempt + 1))/$max_attempts)"
+            
+            if [ "$deployment_status" = "succeeded" ]; then
+              deployment_url=$(echo "$status_response" | jq -r '.deployment_url')
+              health_check_url=$(echo "$status_response" | jq -r '.health_check_url')
+              grafana_url=$(echo "$status_response" | jq -r '.grafana_dashboard_url')
+              
+              echo "✅ Deployment succeeded!"
+              echo "🚀 Agent URL: $deployment_url"
+              echo "❤️  Health Check: $health_check_url"
+              echo "📊 Grafana Dashboard: $grafana_url"
+              exit 0
+            elif [ "$deployment_status" = "failed" ]; then
+              error=$(echo "$status_response" | jq -r '.error // "Unknown error"')
+              echo "❌ Deployment failed: $error"
+              exit 1
+            fi
+            
+            # Still deploying, wait and retry
+            sleep 10
+            attempt=$((attempt + 1))
+          done
+          
+          echo "❌ Deployment timed out after 10 minutes"
+          echo "Last status: $deployment_status"
+          exit 1
